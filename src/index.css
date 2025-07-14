@@ -1,13 +1,623 @@
+/* Base font styling */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: "Nunito Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s ease-in-out;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Light mode */
+:root {
+  --radius: 0.625rem;
+  --background: hsl(0, 0%, 99%);
+  --foreground: 200 15% 8%;
+  --element: hsl(0, 0%, 100%);
+  --button-background: #ffffff;
+  --button-text: #333;
+  --button-hover-background: #f0f0f0;
+  --button-border: #ddd;
+  --border-link-background: #ffffff;
+  --border-link-text: black;
+  --border-link-hover-background: #f1f1f1;
+  --border-link-border: #ffffff;
+  --header-background: #ffffff;
+  --header-text: #000000;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Dark mode variables */
+body.dark {
+  --background: hsl(207, 26%, 17%);
+  --foreground: 0 0% 100%;
+  --element: hsl(209, 23%, 22%);
+  --button-background: hsl(209, 25%, 24%);
+  --button-text: white;
+  --button-hover-background: #333;
+  --button-border: hsl(209, 25%, 24%);
+  --border-link-background: hsl(209, 25%, 24%);
+  --border-link-text: white;
+  --border-link-hover-background: #444;
+  --border-link-border: #333;
+  --header-background: hsl(209, 25%, 24%);
+  --header-text: #ffffff;
+  --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
+  --search-input-background: hsl(209, 25%, 24%); 
+  --search-input-text: white; 
+  --card-text: white; 
+}
+
+/* Body styling */
+body {
+  background-color: var(--background);
+  color: hsl(var(--foreground));
+}
+
+/* global styles for entire page */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1, h2, h3, p {
+  font-family: Arial, sans-serif;
+}
+
+.home-container {
+  padding: 30px 40px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/*-----------------Header-------------*/
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 80px;
+  background-color: var(--header-background);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s, box-shadow 0.3s ease;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--header-text);
+  margin: 0;
+  flex-grow: 1;
+  text-align: left;
+  transition: color 0.3s ease;
+}
+
+/* Dark mode for header */
+body.dark .header {
+  background-color: var(--header-background);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .header h1 {
+  color: var(--header-text);
+}
+
+
+/*-------------Dark mode toggle button-----------*/
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  top: 20px;
+  right: 20px;
+  padding: 8px 12px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+.dark-mode-toggle:focus {
+  outline: none;
+}
+
+.dark-mode-toggle .icon {
+  font-size: 20px;
+}
+
+body.dark .dark-mode-toggle {
+  background-color: var(--button-background);
+  color: var(--button-text);
+}
+
+body.dark .dark-mode-toggle:hover {
+  background-color: var(--button-hover-background);
+}
+
+/*---------------Top bar layout (search + filter)----------------*/
+.top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 40px;
+  margin-top: 20px;
+  position: relative;
+}
+
+
+
+/*-------Search Bar-------*/
+.search-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 18px;
+  color: #7d7d7d; 
+  z-index: 1; 
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 15px;
+  padding-left: 35px;
+  border: 1px solid white;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  min-height: 55px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-input:focus {
+  border-color: #1f436e;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+/* Dark mode for search  */
+body.dark .search-input {
+  background-color: var(--search-input-background);
+  color: var(--search-input-text);
+  border-color: var(--border-link-border);
+}
+
+body.dark .search-input:focus {
+  border-color: #00aaff;
+}
+
+body.dark .search-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+body.dark .search-icon {
+  color: var(--muted-foreground);
+}
+
+
+/*-------------Filter----------*/
+.filter-button {
+  padding: 12px 15px;
+  border: 1px ;
+  border-radius: 8px;
+  background-color: var(--border-link-background);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 220px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: var(--border-link-text);
+  min-height: 55px;
+}
+
+.filter-button:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-wrapper {
+  position: relative;
+  z-index: 5;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--border-link-background); /* Dark mode background */
+  border: 1px solid var(--border-link-border);
+  border-radius: 8px;
+  min-width: 220px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+}
+
+body.dark .dropdown-menu {
+  background-color: var(--border-link-background); /* Dark mode background for dropdown */
+  border-color: var(--border-link-border);
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f3f3f3;
+}
+
+body.dark .dropdown-item:hover {
+  background-color: var(--border-link-hover-background);
+  color: var(--border-link-text); /* Dark mode hover color */
+}
+
+.dropdown-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.filter-button.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+
+/*----------Card styles--------------- */
+
+/* Container for the country cards */
+.country-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 30px; 
+}
+
+.country-card {
+  width: 250px;
+  border-radius: 2px;
+  text-decoration: none;
+  color: black;
+  overflow: hidden;
+  background-color: var(--element);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--card-shadow); 
+}
+
+.country-card:hover {
+  transform: scale(1.05);
+}
+
+.country-flag {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-body h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.card-body p {
+  margin: 8px 0;
+  font-size: 0.9rem;
+}
+
+.card-body strong {
+  font-weight: bold;
+}
+
+/* Dark mode for card */
+body.dark .country-card {
+  color: var(--card-text); 
+}
+
+/*--------------Country Details Screen-------------*/
+.country-details-container {
+  margin: 0 auto;
+  padding: 40px;
+  
+}
+
+/* Back button */
+.fancy-back-button {
+  display: inline-block;
+  margin-bottom: 30px;
+  padding: 10px 25px;
+  background-color: var(--button-background);
+  color: var(--button-text);
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  border: 1px solid var(--button-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.fancy-back-button:hover {
+  background-color: var(--button-hover-background);
+  border-color: #bbb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode for back button */
+body.dark .fancy-back-button {
+  background-color: var(--button-background);
+  color: var(--button-text);
+  border-color: var(--button-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .fancy-back-button:hover {
+  background-color: var(--button-hover-background);
+  border-color: #777;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+/* Flexbox layout ( country details)  */
+.detail-layout {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  align-items: stretch;
+}
+
+/* Left container (flag) */
+.flag-container {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.country-flag {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Right container (country info) */
+.detail-info {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.detail-info h2 {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+/* Info columns */
+.info-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.column p {
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.column strong {
+  font-weight: bold;
+}
+
+/*-----Border country section and buttons--------*/
+.borders-section {
+  display: flex; 
+  align-items: center; 
+  gap: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  
+}
+
+.borders-section p {
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+/* buttons */
+.border-link {
+  display: inline-block;
+  padding: 6px 30px;
+  background-color: var(--border-link-background);
+  color: var(--border-link-text);
+  text-decoration: none;
+  border: 1px solid var(--border-link-border);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin-right: 10px; 
+}
+
+
+.border-link:hover {
+  background-color: var(--border-link-hover-background);
+}
+
+/* Dark mode for border links */
+body.dark .border-link {
+  background-color: var(--border-link-background);
+  color: var(--border-link-text);
+  border: 1px solid var(--border-link-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .border-link:hover {
+  background-color: var(--border-link-hover-background);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .country-list {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .country-card {
+    width: 100%; /* Full width for mobile */
+  }
+
+  .dark-mode-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 15px; /* Smaller button */
+  }
+}
+
+
+/* Media Queries for responsiveness */
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .country-list {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .country-card {
+    width: 100%; /* Full width for mobile */
+  }
+
+  .dark-mode-toggle {
+    top: 10px;
+    right: 10px;
+    padding: 8px 15px; /* Smaller button */
+  }
+
+  .country-details-container {
+    padding: 20px;
+  }
+
+  .detail-layout {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flag-container {
+    padding: 15px;
+  }
+
+  .country-flag {
+    width: 100%;
+    height: auto;
+  }
+
+  .detail-info h2 {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+
+  .info-columns {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .column p {
+    font-size: 12px;
+  }
+
+  .border-link {
+    padding: 6px 20px;
+    font-size: 12px;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
+
+  .search-input {
+    padding-left: 30px;
+  }
+}
+
+/* Tablet and up (768px+) */
+@media (min-width: 768px) {
+  .country-list {
+    flex-direction: row;
+    gap: 45px;
+  }
+
+  .country-card {
+    width: 200px;
+  }
+
+  .detail-layout {
+    flex-direction: row;
+    gap: 40px;
+  }
+
+  .info-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .column p {
+    font-size: 14px;
+  }
+}
+
+/* Desktop and up (1024px+) */
+@media (min-width: 1024px) {
+  .country-list {
+    justify-content: space-evenly;
+  }
+
+  .country-card {
+    width: 250px;
+  }
+
+  .detail-layout {
+    justify-content: space-between;
+  }
+
+  .info-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
 }
